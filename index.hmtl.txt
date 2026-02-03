@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday 🎉</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: #ff4081;
+    }
+
+    p {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 30px;
+      background: #ff4081;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #e73370;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="confetti"></canvas>
+
+  <div class="card">
+    <h1>🎉 Happy Birthday! 🎂</h1>
+    <p>
+      Wishing you a day filled with love, laughter, and cake!  
+      May all your dreams come true 💖
+    </p>
+    <button onclick="startConfetti()">Celebrate 🎊</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+
+    let confetti = [];
+    const colors = ["#ff4081", "#ffd700", "#00c9a7", "#845ec2", "#ff9671"];
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    function createConfetti() {
+      confetti = [];
+      for (let i = 0; i < 200; i++) {
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          size: Math.random() * 6 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speed: Math.random() * 3 + 2,
+        });
+      }
+    }
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach((c) => {
+        ctx.fillStyle = c.color;
+        ctx.fillRect(c.x, c.y, c.size, c.size);
+        c.y += c.speed;
+        if (c.y > canvas.height) c.y = -10;
+      });
+      requestAnimationFrame(drawConfetti);
+    }
+
+    function startConfetti() {
+      createConfetti();
+      drawConfetti();
+      setTimeout(() => confetti = [], 6000);
+    }
+
+    // Auto start on load
+    startConfetti();
+  </script>
+
+</body>
+</html>
